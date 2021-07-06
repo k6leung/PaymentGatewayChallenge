@@ -1,0 +1,57 @@
+#should use different profiles, but for simplicity, this is omitted
+mongo:
+  user: ken
+  password: ken #should be encrypted and placed in other location like vault/config map/config server
+  host: localhost
+  port: 27017
+  authDb: admin
+
+#This should have been a message queue, e.g. kafka/rabbit mq/active mq artemis etc.
+#But since I do not have those infrastructure setup ready-to-go, we use rest service here
+#Assuming this service is being scaled out, pcf route/kubernetes service load balanced
+worker:
+  host: localhost:8180
+
+payment:
+  threadPool:
+    size: 100
+  retry:
+    count: 5
+  technical:
+    backoff:
+      second: 5
+  timeout:
+    backoff:
+      second: 60
+  claim:
+    backoff:
+      second: 300
+  batch:
+    size: 100
+
+notification:
+  threadPool:
+    size: 25
+  retry:
+    count: 5
+  technical:
+    backoff:
+      second: 5
+  timeout:
+    backoff:
+      second: 60
+  claim:
+    backoff:
+      second: 300
+  batch:
+    size: 100
+
+feign:
+  httpclient:
+    enabled: true
+  client:
+    config:
+      default:
+        connect-timeout: 30000
+        read-timeout: 30000
+        logger-level: BASIC

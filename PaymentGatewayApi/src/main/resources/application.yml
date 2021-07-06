@@ -1,0 +1,7 @@
+#should use different profiles, but for simplicity, this is omitted
+mongo:
+  user: ken
+  password: ken #should be encrypted and placed in other location like vault/config map/config server
+  host: localhost
+  port: 27017
+  authDb: admin
